@@ -1,3 +1,5 @@
+package midiparse;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,7 +12,7 @@
  */
 public class Note {
     
-    public Note(int start, int duration, String name, int key, int velocity)
+    public Note(long start, long duration, String name, int key, int velocity)
     {
         this.start = start;
         this.duration = duration;
@@ -19,22 +21,22 @@ public class Note {
         this.velocity = velocity;
     }
     
-    public void setStart(int start)
+    public void setStart(long start)
     {
         this.start = start;
     }
     
-    public int getStart()
+    public long getStart()
     {
         return start;
     }
     
-    public void setDuration(int duration)
+    public void setDuration(long duration)
     {
         this.duration = duration;
     }
     
-    public int getDuration()
+    public long getDuration()
     {
         return duration;
     }
@@ -69,8 +71,9 @@ public class Note {
         return velocity;
     }
     
-    private int start;
-    private int duration;
+    int track;
+    private long start;
+    private long duration;
     private String name;
     private int key;
     private int velocity;
