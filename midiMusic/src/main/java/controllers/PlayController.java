@@ -17,10 +17,13 @@ import javax.sound.midi.Sequencer;
 import javax.sound.midi.Sequence;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -32,12 +35,16 @@ public class PlayController {
     private Sequencer sequencer;
     private boolean playing;
     private Sequence capturedSeq;
+    private Task<Void> task;
 
     private final double NOTE_WIDTH_MULT = 0.2;
     private final int NOTE_HEIGHT_MULT = 4;
 
     @FXML
     private Group score;
+
+    @FXML
+    private ScrollPane window;
 
     @FXML
     private JFXButton playPause;
@@ -63,7 +70,20 @@ public class PlayController {
         Line scanLine = new Line(0, 0, 0, 1000);
         score.getChildren().add(scanLine);
 
-        Task task = new Task<Void>() {
+        DoubleProperty linePos = scanLine.endXProperty();
+        window.hvalueProperty().bind(Bindings.createDoubleBinding(() -> {
+            double frac = 0;
+            int offset = 400;
+            if (linePos.get() > offset)
+                frac = ((linePos.get() - offset) / NOTE_WIDTH_MULT) / (sequencer.getTickLength() + offset);
+
+            return frac;
+        }, linePos));
+
+        if (task != null && task.isRunning())
+            task.cancel();
+
+        task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
                 int i = 0;
@@ -72,6 +92,8 @@ public class PlayController {
                         @Override
                         public void run() {
                             double xPos = sequencer.getTickPosition() * NOTE_WIDTH_MULT;
+                            System.err.println(xPos);
+
                             scanLine.setStartX(xPos);
                             scanLine.setEndX(xPos);
 
@@ -82,6 +104,7 @@ public class PlayController {
                 }
             }
         };
+
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
@@ -94,11 +117,10 @@ public class PlayController {
         circle.setRadius(4);
         circle.setFill(Color.RED);
 
-        if(note.getVelocity() != -1 && note.getDuration() == 2) {
+        if (note.getVelocity() != -1 && note.getDuration() == 2) {
             score.getChildren().add(circle);
         }
     }
-
 
     @FXML
     public void togglePlaying() {
@@ -124,6 +146,9 @@ public class PlayController {
         if (playing)
             togglePlaying();
 
+        if (task != null && task.isRunning())
+            task.cancel();
+
         System.err.println("back to song select");
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/select.fxml"));
         Parent select = loader.load();
@@ -138,6 +163,9 @@ public class PlayController {
     public void endGame() throws IOException {
         if (playing)
             togglePlaying();
+
+        if (task != null && task.isRunning())
+            task.cancel();
 
         System.err.println("ending game");
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/end.fxml"));

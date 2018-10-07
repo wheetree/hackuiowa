@@ -79,8 +79,7 @@ public class SelectController implements Initializable {
         controller.setMidiConn(conn);
 
         try {
-            controller.setNotes(Parser.getTopChannels(Parser.parse(fullName), 10));
-            //controller.setMidiConn(conn);
+            controller.setNotes(Parser.getTopChannels(Parser.parse(fullName), channels));
             controller.setSequencer(Parser.getSequencer(fullName));
 
             Scene newScene = new Scene(play);
