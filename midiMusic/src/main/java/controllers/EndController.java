@@ -7,5 +7,7 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class EndController {
+    public EndController() {
 
+    }
 }

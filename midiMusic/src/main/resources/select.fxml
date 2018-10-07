@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.SelectController">
    <children>
       <JFXTextField prefHeight="40.0" prefWidth="800.0" />
-      <JFXListView prefHeight="560.0" prefWidth="800.0" />
+      <JFXListView fx:id="trackList" prefHeight="560.0" prefWidth="800.0" />
+      <JFXButton fx:id="startButton" onAction="#startTrack" text="Play">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </JFXButton>
    </children>
 </VBox>

@@ -1,14 +1,15 @@
 package hackuiowa.app;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 
 public class MainApp extends Application {
     private Stage primaryStage;

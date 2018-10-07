@@ -3,8 +3,10 @@ package hackuiowa.controllers;
 import java.io.IOException;
 
 import com.jfoenix.controls.JFXButton;
+
 import hackuiowa.app.MainApp;
 import hackuiowa.app.State;
+import hackuiowa.controllers.SelectController;
 
 import javafx.fxml.*;
 import javafx.scene.*;
@@ -13,6 +15,10 @@ import javafx.stage.Stage;
 public class MenuController {
     @FXML
     private JFXButton menuQuit;
+
+    public MenuController() {
+
+    }
 
     @FXML
     public void start1p() throws IOException {
@@ -25,9 +31,16 @@ public class MenuController {
     }
 
     private void start(int n) throws IOException {
-        Parent select = FXMLLoader.load(getClass().getResource("select.fxml"));
-        Scene newScene = new Scene(select);
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("select.fxml"));
+        System.out.println("initialized");
+        Parent select = loader.load();
 
+        System.out.println("loaded");
+
+        SelectController controller = loader.getController();
+        controller.setTracks(n);
+
+        Scene newScene = new Scene(select);
         Stage stage = (Stage) menuQuit.getScene().getWindow();
         stage.setScene(newScene);
     }
