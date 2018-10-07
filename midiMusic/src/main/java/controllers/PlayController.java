@@ -38,7 +38,8 @@ public class PlayController {
     private Task<Void> task;
 
     private final double NOTE_WIDTH_MULT = 0.2;
-    private final int NOTE_HEIGHT_MULT = 4;
+    private final int NOTE_HEIGHT_MULT = 10;
+    private final int Y_HEIGHT = 400;
 
     @FXML
     private Group score;
@@ -56,18 +57,19 @@ public class PlayController {
             for (Note note : channel) {
                 Rectangle rect = new Rectangle(note.getDuration() * NOTE_WIDTH_MULT, 10, Color.BLUE);
                 rect.setLayoutX(note.getStart() * NOTE_WIDTH_MULT);
-                rect.setLayoutY(yOffset + 100 - note.getkey() * NOTE_HEIGHT_MULT);
+                rect.setLayoutY(yOffset + yOffset - note.getkey() * NOTE_HEIGHT_MULT);
                 score.getChildren().add(rect);
             }
 
-            yOffset += 100;
+            yOffset += Y_HEIGHT;
         }
     }
 
     public void setSequencer(Sequencer sequencer) {
         this.sequencer = sequencer;
         this.playing = false;
-        Line scanLine = new Line(0, 0, 0, 1000);
+        Line scanLine = new Line(0, -1000, 0, 1000);
+        scanLine.setStrokeWidth(10);
         score.getChildren().add(scanLine);
 
         DoubleProperty linePos = scanLine.endXProperty();
@@ -76,7 +78,6 @@ public class PlayController {
             int offset = 400;
             if (linePos.get() > offset)
                 frac = ((linePos.get() - offset) / NOTE_WIDTH_MULT) / (sequencer.getTickLength() + offset);
-
             return frac;
         }, linePos));
 
@@ -86,14 +87,11 @@ public class PlayController {
         task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                int i = 0;
                 while (true) {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             double xPos = sequencer.getTickPosition() * NOTE_WIDTH_MULT;
-                            System.err.println(xPos);
-
                             scanLine.setStartX(xPos);
                             scanLine.setEndX(xPos);
 
