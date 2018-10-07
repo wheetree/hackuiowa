@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.PlayController">
+   <children>
+      <SplitPane prefHeight="570.0" prefWidth="800.0">
+         <items>
+            <ScrollPane prefHeight="570.0" prefWidth="800.0">
+               <content>
+                  <Group fx:id="score" />
+               </content></ScrollPane>
+         </items>
+      </SplitPane>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <JFXTextArea fx:id="trackName" prefHeight="65.0" prefWidth="300.0" text="Currently Playing:" />
+            <JFXButton fx:id="playPause" contentDisplay="CENTER" onAction="#togglePlaying" prefHeight="65.0" prefWidth="200.0" text="Play">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </JFXButton>
+            <JFXTextArea fx:id="time" prefHeight="65.0" prefWidth="300.0" text="time" />
+         </children>
+      </HBox>
+   </children>
+</VBox>
