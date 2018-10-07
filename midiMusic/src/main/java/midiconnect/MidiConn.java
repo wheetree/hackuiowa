@@ -56,61 +56,6 @@ public class MidiConn {
 		}
 	}
 
-	public Sequence recordAndPlaySequence(int secondsLong) {
-		try {
-			Sequencer sequencer = MidiSystem.getSequencer();
-			Transmitter transmitter;
-			Receiver receiver;
-			
-			device.open();
-			sequencer.open();
-			
-			Synthesizer synth = MidiSystem.getSynthesizer();
-			synth.open();
-
-			System.out.println("Synth is: " + synth.toString());
-
-			Instrument[] instr = synth.getDefaultSoundbank().getInstruments();
-			synth.loadInstrument(instr[10]);
-			
-			Transmitter synthTrans = device.getTransmitter();
-			Transmitter seqTrans = device.getTransmitter();
-			seqTrans.setReceiver(sequencer.getReceiver());
-
-
-			MyMidiDevice myDevice = new MyMidiDevice();
-			synthTrans.setReceiver(myDevice);
-			myDevice.setReceiver(synth.getReceiver());
-
-
-			Sequence sequence = new Sequence(Sequence.PPQ, 960);
-			Track currentTrack = sequence.createTrack();
-
-			sequencer.setSequence(sequence);
-			sequencer.setTickPosition(0);
-			sequencer.recordEnable(currentTrack, -1);
-
-
-			sequencer.startRecording();
-
-			TimeUnit.SECONDS.sleep(secondsLong);
-
-			sequencer.stopRecording();
-
-			Sequence temp = sequencer.getSequence();
-
-			sequencer.close();
-			device.close();
-			synth.close();
-
-			return temp;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
     public Note parseMessage() {
         MidiMessage toParse = currentMessage;
         Note note = new Note(-1, -1, "", -1 ,-1);

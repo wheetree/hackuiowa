@@ -4,6 +4,7 @@ import hackuiowa.controllers.MenuController;
 import hackuiowa.controllers.PlayController;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 
 import java.io.IOException;
 
@@ -14,6 +15,9 @@ import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
 public class EndController {
+    @FXML
+    private JFXTextArea scoreText;
+
     @FXML
     private JFXButton returnButton;
 
@@ -45,5 +49,9 @@ public class EndController {
         Scene newScene = new Scene(select);
         Stage stage = (Stage) returnButton.getScene().getWindow();
         stage.setScene(newScene);
+    }
+
+    public void setScore(long score) {
+        scoreText.setText("Score: " + score);
     }
 }
