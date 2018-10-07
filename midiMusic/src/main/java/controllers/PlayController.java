@@ -76,7 +76,7 @@ public class PlayController {
     public void setSequencer(Sequencer sequencer) {
         this.sequencer = sequencer;
         this.playing = false;
-        Line scanLine = new Line(0, -1000, 0, 1000);
+        Line scanLine = new Line(0, -100, 0, 1000);
         scanLine.setStrokeWidth(10);
         score.getChildren().add(scanLine);
 
