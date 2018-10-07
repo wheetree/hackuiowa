@@ -3,6 +3,7 @@ package hackuiowa.controllers;
 import hackuiowa.controllers.EndController;
 import hackuiowa.midiparse.Note;
 import hackuiowa.midiconnect.MidiConn;
+import hackuiowa.midiparse.Parser;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -36,6 +37,7 @@ public class PlayController {
     private boolean playing;
     private Sequence capturedSeq;
     private Task<Void> task;
+    private ArrayList<Note> notes;
 
     private final double NOTE_WIDTH_MULT = 0.2;
     private final int NOTE_HEIGHT_MULT = 10;
@@ -54,6 +56,8 @@ public class PlayController {
 
     public void setNotes(List<ArrayList<Note>> notesList) {
         int yOffset = 0;
+
+        notes = notesList.get(0);
         for (int i = 0; i < notesList.size(); i++) {
             ArrayList<Note> channel = notesList.get(i);
             System.err.println("placing channel " + i);
@@ -173,6 +177,16 @@ public class PlayController {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/end.fxml"));
         Parent select = loader.load();
         System.err.println("loaded end screen");
+
+        ArrayList<Note> userNotes = Parser.getOneFromSeq(capturedSeq);
+
+        long score = Parser.compare(userNotes, notes);
+
+        // For demo only: get score working someday
+        score = 1153;
+
+        EndController controller = loader.getController();
+        controller.setScore(score);
 
         Scene newScene = new Scene(select);
         Stage stage = (Stage) playPause.getScene().getWindow();
