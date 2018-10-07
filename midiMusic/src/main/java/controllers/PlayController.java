@@ -2,6 +2,7 @@ package hackuiowa.controllers;
 
 import hackuiowa.controllers.EndController;
 import hackuiowa.midiparse.Note;
+import hackuiowa.midiconnect.MidiConn;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.sound.midi.Sequencer;
+import javax.sound.midi.Sequence;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -20,13 +22,16 @@ import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class PlayController {
+    private MidiConn conn;
     private Sequencer sequencer;
     private boolean playing;
+    private Sequence capturedSeq;
 
     private final double NOTE_WIDTH_MULT = 0.2;
     private final int NOTE_HEIGHT_MULT = 4;
@@ -69,9 +74,11 @@ public class PlayController {
                             double xPos = sequencer.getTickPosition() * NOTE_WIDTH_MULT;
                             scanLine.setStartX(xPos);
                             scanLine.setEndX(xPos);
+
+                            draw(conn.parseMessage(), (int) xPos);
                         }
                     });
-                    Thread.sleep(100);
+                    Thread.sleep(10);
                 }
             }
         };
@@ -80,17 +87,36 @@ public class PlayController {
         th.start();
     }
 
+    public void draw(Note note, int xPos) {
+        Circle circle = new Circle();
+        circle.setCenterX(xPos);
+        circle.setCenterY(200 - note.getkey() * NOTE_HEIGHT_MULT);
+        circle.setRadius(4);
+        circle.setFill(Color.RED);
+
+        if(note.getVelocity() != -1 && note.getDuration() == 2) {
+            score.getChildren().add(circle);
+        }
+    }
+
+
     @FXML
     public void togglePlaying() {
         if (!playing) {
             sequencer.start();
             playing = true;
             playPause.setText("Pause");
+            conn.startCapture();
         } else {
             sequencer.stop();
             playing = false;
             playPause.setText("Play");
+            capturedSeq = conn.stopCapture();
         }
+    }
+
+    public void setMidiConn(MidiConn conn) {
+        this.conn = conn;
     }
 
     @FXML

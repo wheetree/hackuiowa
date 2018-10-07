@@ -2,6 +2,7 @@ package hackuiowa.controllers;
 
 import hackuiowa.controllers.PlayController;
 import hackuiowa.midiparse.Parser;
+import hackuiowa.midiconnect.MidiConn;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import javafx.scene.*;
 import javafx.stage.Stage;
 
 public class SelectController implements Initializable {
+    private MidiConn conn;
     private File folder;
     private int channels;
     private String trackName;
@@ -56,6 +58,9 @@ public class SelectController implements Initializable {
                 System.err.println("selected track: " + newValue);
             }
         });
+        conn = new MidiConn();
+        conn.selectDevice();
+
     }
 
     @FXML
@@ -71,9 +76,11 @@ public class SelectController implements Initializable {
         System.err.println("loaded play screen");
 
         PlayController controller = loader.getController();
+        controller.setMidiConn(conn);
 
         try {
             controller.setNotes(Parser.getTopChannels(Parser.parse(fullName), 10));
+            //controller.setMidiConn(conn);
             controller.setSequencer(Parser.getSequencer(fullName));
 
             Scene newScene = new Scene(play);
