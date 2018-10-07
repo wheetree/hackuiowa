@@ -59,22 +59,21 @@ public class MidiConn {
 			
 			Synthesizer synth = MidiSystem.getSynthesizer();
 			synth.open();
+
+			System.out.println("Synth is: " + synth.toString());
+
 			Instrument[] instr = synth.getDefaultSoundbank().getInstruments();
 			synth.loadInstrument(instr[10]);
-
-
 			
 			Transmitter synthTrans = device.getTransmitter();
 			Transmitter seqTrans = device.getTransmitter();
-			synthTrans.setReceiver(synth.getReceiver());
 			seqTrans.setReceiver(sequencer.getReceiver());
 
-			System.out.println("# synth receivers: " + synthTrans.getReceiver());
-			System.out.println("# sequencer receivers: " + seqTrans.getReceiver());
-			
-			synth.getReceiver().send(new ShortMessage(ShortMessage.NOTE_ON, 4, 60, 93), -1);
+			MyMidiDevice myDevice = new MyMidiDevice();
+			synthTrans.setReceiver(myDevice);
+			myDevice.setReceiver(synth.getReceiver());
 
-			Sequence sequence = new Sequence(Sequence.PPQ, 24);
+			Sequence sequence = new Sequence(Sequence.PPQ, 960);
 			Track currentTrack = sequence.createTrack();
 
 			sequencer.setSequence(sequence);
@@ -91,47 +90,13 @@ public class MidiConn {
 
 			sequencer.close();
 			device.close();
-			//synth.close();
+			synth.close();
 
 			return temp;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return null;
-	}
-
-	public Sequence recordSequence(int secondsLong) {
-		try {
-			Receiver receiver;
-			Transmitter transmitter = device.getTransmitter();
-			Sequencer sequencer = MidiSystem.getSequencer();
-			sequencer.open();
-			receiver = sequencer.getReceiver();
-			transmitter.setReceiver(receiver);
-
-			Sequence sequence = new Sequence(Sequence.PPQ, 24);
-			Track currentTrack = sequence.createTrack();
-
-			sequencer.setSequence(sequence);
-			sequencer.setTickPosition(0);
-			sequencer.recordEnable(currentTrack, -1);
-
-			sequencer.startRecording();
-
-			TimeUnit.SECONDS.sleep(secondsLong);
-
-			sequencer.stopRecording();
-
-			Sequence temp = sequencer.getSequence();
-
-			sequencer.close();
-
-			return temp;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return null;
 	}
 
