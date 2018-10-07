@@ -21,6 +21,11 @@
       </SplitPane>
       <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
+            <JFXButton contentDisplay="CENTER" onAction="#back" prefHeight="65.0" prefWidth="200.0" text="Back">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </JFXButton>
             <JFXTextArea fx:id="trackName" prefHeight="65.0" prefWidth="300.0" text="Currently Playing:" />
             <JFXButton fx:id="playPause" contentDisplay="CENTER" onAction="#togglePlaying" prefHeight="65.0" prefWidth="200.0" text="Play">
                <font>
@@ -28,6 +33,11 @@
                </font>
             </JFXButton>
             <JFXTextArea fx:id="time" prefHeight="65.0" prefWidth="300.0" text="time" />
+            <JFXButton contentDisplay="CENTER" onAction="#togglePlaying" prefHeight="65.0" prefWidth="200.0" text="End">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </JFXButton>
          </children>
       </HBox>
    </children>

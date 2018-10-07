@@ -80,6 +80,7 @@ public class PlayController {
         th.start();
     }
 
+    @FXML
     public void togglePlaying() {
         if (!playing) {
             sequencer.start();
