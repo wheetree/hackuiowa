@@ -2,22 +2,62 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.text.Font?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <JFXTextArea prefHeight="131.0" prefWidth="600.0" text="Score:" />
-      <JFXButton text="Replay">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </JFXButton>
-      <JFXButton text="Return to Menu">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </JFXButton>
+      <ImageView fitHeight="662.0" fitWidth="1001.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+         <image>
+            <Image url="@../ancient%20piano.jpeg" />
+         </image>
+      </ImageView>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <AnchorPane prefHeight="131.0" prefWidth="800.0">
+               <children>
+                  <JFXTextArea prefHeight="131.0" prefWidth="800.0" text="Score:" />
+               </children>
+            </AnchorPane>
+            <JFXButton onAction="#restartTrack" text="Replay">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="returnButton" onAction="#returnMenu" text="Return to Menu">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </JFXButton>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Ellipse fx:id="messageBackground" layoutX="417.0" layoutY="100.0" radiusX="359.0" radiusY="80.0" stroke="WHITE" strokeType="INSIDE">
+                     <fill>
+                        <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                           <stops>
+                              <Stop color="#739abf" />
+                              <Stop color="#f7f6ff" offset="1.0" />
+                           </stops>
+                        </RadialGradient>
+                     </fill>
+                  </Ellipse>
+                  <Label fx:id="message" layoutX="242.0" layoutY="44.0" text="Nice Job!">
+                     <font>
+                        <Font size="78.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
    </children>
-</VBox>
+</StackPane>
