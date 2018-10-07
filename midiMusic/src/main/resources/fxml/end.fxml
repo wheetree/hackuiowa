@@ -16,9 +16,9 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.EndController">
    <children>
-      <ImageView fitHeight="662.0" fitWidth="1001.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
          <image>
-            <Image url="@../ancient%20piano.jpeg" />
+            <Image url="@../oldv2.jpg" />
          </image>
       </ImageView>
       <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
@@ -40,17 +40,17 @@
             </JFXButton>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Ellipse fx:id="messageBackground" layoutX="417.0" layoutY="100.0" radiusX="359.0" radiusY="80.0" stroke="WHITE" strokeType="INSIDE">
+                  <Ellipse fx:id="messageBackground" layoutX="400.0" layoutY="100.0" radiusX="359.0" radiusY="80.0" stroke="#ffffff00" strokeType="INSIDE">
                      <fill>
-                        <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                        <RadialGradient centerX="0.5055555555555555" centerY="0.5" radius="0.5">
                            <stops>
-                              <Stop color="#739abf" />
-                              <Stop color="#f7f6ff" offset="1.0" />
+                              <Stop color="#e0f0ff" />
+                              <Stop color="#f8f7ff2b" offset="1.0" />
                            </stops>
                         </RadialGradient>
                      </fill>
                   </Ellipse>
-                  <Label fx:id="message" layoutX="242.0" layoutY="44.0" text="Nice Job!">
+                  <Label fx:id="message" layoutX="242.0" layoutY="44.0" text="Nice Job!" textAlignment="CENTER">
                      <font>
                         <Font size="78.0" />
                      </font>
