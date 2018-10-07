@@ -48,7 +48,12 @@ public class Parser {
         return null;
     }
     
-    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName)
+    public static  List<HashMap<Integer, ArrayList<Note>>> parse(String fileName)
+    {
+        return parse(fileName, -1);
+    }
+    
+    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName, int num)
     {
         Sequence sequence;
         try {
@@ -61,32 +66,28 @@ public class Parser {
         }
         
         ArrayList<HashMap<Integer, ArrayList<Note>>> noteChannelTracks = new ArrayList<HashMap<Integer, ArrayList<Note>>>();
-        
-        int trackNumber = 0;
-        for (Track track :  sequence.getTracks()) {
+        if (num < 0 || num > sequence.getTracks().length) num = sequence.getTracks().length;
+        for (int q = 0; q < num; q++)
+        {
+            Track track = sequence.getTracks()[q];
             HashMap<Integer, ArrayList<Note>> noteChannels = new HashMap<Integer, ArrayList<Note>>();
             HashMap<Integer, HashMap<Integer, Note>> unfinishedNotes = new HashMap<Integer, HashMap<Integer, Note>>();
-            //System.out.println("Track " + trackNumber + ": size = " + track.size());
-            //System.out.println();
             for (int i=0; i < track.size(); i++) { 
                 MidiEvent event = track.get(i);
-                //System.out.print("@" + event.getTick() + " ");
                 MidiMessage message = event.getMessage();
                 if (message instanceof ShortMessage) {
                     ShortMessage sm = (ShortMessage) message;
-                    //System.out.print("Channel: " + sm.getChannel() + " ");
                     if (sm.getCommand() == NOTE_ON) {
                         int key = sm.getData1();
                         int octave = (key / 12)-1;
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
-                        //System.out.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity);
                         
                         if (unfinishedNotes.containsKey(sm.getChannel()) && velocity > 0)
                         {
                             HashMap<Integer, Note> channelMap = unfinishedNotes.get(sm.getChannel());
-                            channelMap.put(key, new Note(event.getTick(), -1, noteName, key, velocity));
+                            channelMap.put(key, new Note(event.getTick(), -1, noteName + octave, key, velocity));
                         }
                         else if (velocity == 0)
                         {
@@ -96,7 +97,14 @@ public class Parser {
                             if (noteChannels.containsKey(sm.getChannel()))
                             {
                                 ArrayList<Note> channel = noteChannels.get(sm.getChannel());
-                                channel.add(currNote);
+                                if(channel.get(channel.size() - 1).getStart() < event.getTick()) channel.add(currNote);
+                                else {
+                                    int n = channel.size() - 2;
+                                    while (channel.get(n).getStart() < event.getTick()) {
+                                        n--;
+                                    }
+                                    channel.add(n, currNote);
+                                }
                             }
                             else
                             {
@@ -112,11 +120,6 @@ public class Parser {
                         }
                     } else if (sm.getCommand() == NOTE_OFF) {
                         int key = sm.getData1();
-                        int octave = (key / 12)-1;
-                        int note = key % 12;
-                        String noteName = NOTE_NAMES[note];
-                        int velocity = sm.getData2();
-                        //System.out.println("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity);
                         
                         HashMap<Integer, Note> channelMap = unfinishedNotes.get(sm.getChannel());
                         Note currNote = channelMap.get(key);
@@ -124,7 +127,14 @@ public class Parser {
                         if (noteChannels.containsKey(sm.getChannel()))
                         {
                             ArrayList<Note> channel = noteChannels.get(sm.getChannel());
-                            channel.add(currNote);
+                            if(channel.get(channel.size() - 1).getStart() < event.getTick()) channel.add(currNote);
+                            else {
+                                int n = channel.size() - 2;
+                                while (channel.get(n).getStart() < event.getTick()) {
+                                    n--;
+                                }
+                                channel.add(n, currNote);
+                            }
                         }
                         else
                         {
@@ -132,17 +142,69 @@ public class Parser {
                             channel.add(currNote);
                             noteChannels.put(sm.getChannel(), channel);
                         }
-                    } else {
-                        //System.out.println("Command:" + sm.getCommand());
-                    }
-                } else {
-                    //System.out.println("Other message: " + message.getClass());
-                }
+                    } 
+                } 
             }
             noteChannelTracks.add(noteChannels);
-            trackNumber++;
-            //System.out.println();
         }
         return noteChannelTracks;
+    }
+    
+    // assuming original is sorted by start time on notes
+    public static long compare(ArrayList<Note> original, ArrayList<Note> input)
+    {
+        long accum = 0;
+        for (Note curr: input)
+        {
+            long end = curr.getStart() + curr.getDuration();
+            int maxIndex = getMaxIndex(original, 0, original.size(), end);
+            long matching = 0;
+            for (int i = 0; i < maxIndex; i++)
+            {
+                Note a = original.get(i);
+                if(a.getkey() == curr.getkey())
+                {
+                    if (end > a.getStart())
+                    {
+                        if (curr.getStart() < a.getStart() + a.getDuration())
+                        {
+                            long durStart;
+                            long durEnd;
+                            if (curr.getStart() > a.getStart()) durStart = curr.getStart();
+                            else durStart = a.getStart();
+                            if (end < a.getStart() + a.getDuration()) durEnd = end;
+                            else durEnd = a.getStart() + a.getDuration();
+                            
+                            matching += durEnd - durStart;
+                        }
+                    }
+                }
+            }
+            
+            accum += matching;
+        }
+        return accum;
+    }
+    
+    public static long getMaxScore(ArrayList<Note> list)
+    {
+        long accum = 0;
+        for (Note n : list)
+        {
+            accum += n.getDuration();
+        }
+        
+        return accum;
+    }
+    
+    private static int getMaxIndex(ArrayList<Note> list, int start, int end, long n)
+    {
+        if(start == end) return start;
+        if (end - start == 1) return end;
+        
+        int mid = start + (end - start) / 2;
+        if (list.get(mid).getStart() == n) return mid;
+        else if (list.get(mid).getStart() < n) return getMaxIndex(list, mid, end, n);
+        else return getMaxIndex(list, start, mid, n);
     }
 }
