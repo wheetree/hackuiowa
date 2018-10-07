@@ -5,40 +5,54 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.PlayController">
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <SplitPane prefHeight="570.0" prefWidth="800.0">
-         <items>
-            <ScrollPane prefHeight="570.0" prefWidth="800.0">
-               <content>
-                  <Group fx:id="score" />
-               </content></ScrollPane>
-         </items>
-      </SplitPane>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../water.jpg" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="600.0" prefWidth="800.0">
          <children>
-            <JFXButton contentDisplay="CENTER" onAction="#back" prefHeight="65.0" prefWidth="200.0" text="Back">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </JFXButton>
-            <JFXTextArea fx:id="trackName" prefHeight="65.0" prefWidth="300.0" text="Currently Playing:" />
-            <JFXButton fx:id="playPause" contentDisplay="CENTER" onAction="#togglePlaying" prefHeight="65.0" prefWidth="200.0" text="Play">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </JFXButton>
-            <JFXTextArea fx:id="time" prefHeight="65.0" prefWidth="300.0" text="time" />
-            <JFXButton contentDisplay="CENTER" onAction="#endGame" prefHeight="65.0" prefWidth="200.0" text="End">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </JFXButton>
+            <SplitPane opacity="0.32" prefHeight="570.0" prefWidth="800.0">
+               <items>
+                  <ScrollPane opacity="0.43" prefHeight="570.0" prefWidth="800.0">
+                     <content>
+                        <Group fx:id="score" opacity="0.3" />
+                     </content>
+                  </ScrollPane>
+               </items>
+            </SplitPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <JFXButton contentDisplay="CENTER" onAction="#back" prefHeight="65.0" prefWidth="200.0" text="Back">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXTextArea fx:id="trackName" prefHeight="65.0" prefWidth="300.0" text="Currently Playing:" />
+                  <JFXButton fx:id="playPause" contentDisplay="CENTER" onAction="#togglePlaying" prefHeight="65.0" prefWidth="200.0" text="Play">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXTextArea fx:id="time" prefHeight="65.0" prefWidth="300.0" text="Time:" />
+                  <JFXButton contentDisplay="CENTER" onAction="#endGame" prefHeight="65.0" prefWidth="200.0" text="End">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </children>
-</VBox>
+</StackPane>

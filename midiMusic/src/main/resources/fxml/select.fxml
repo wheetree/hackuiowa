@@ -3,17 +3,35 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.SelectController">
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.SelectController">
    <children>
-      <JFXTextField prefHeight="40.0" prefWidth="800.0" />
-      <JFXListView fx:id="trackList" prefHeight="560.0" prefWidth="800.0" />
-      <JFXButton fx:id="startButton" onAction="#startTrack" text="Play">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </JFXButton>
+      <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../cold.jpg" />
+         </image>
+      </ImageView>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <JFXTextField prefHeight="40.0" prefWidth="800.0" />
+            <JFXListView fx:id="trackList" opacity="0.67" prefHeight="560.0" prefWidth="800.0" />
+            <AnchorPane prefHeight="65.0" prefWidth="800.0">
+               <children>
+                  <JFXButton fx:id="startButton" layoutX="700.0" onAction="#startTrack" ripplerFill="WHITE" text="Play" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
    </children>
-</VBox>
+</StackPane>
