@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.PlayController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -24,9 +23,9 @@
          <children>
             <SplitPane opacity="0.32" prefHeight="570.0" prefWidth="800.0">
                <items>
-                  <ScrollPane opacity="0.43" prefHeight="570.0" prefWidth="800.0">
+                  <ScrollPane fx:id="window" hbarPolicy="NEVER" prefHeight="570.0" prefWidth="800.0">
                      <content>
-                        <Group fx:id="score" opacity="0.3" />
+                        <Group fx:id="score" />
                      </content>
                   </ScrollPane>
                </items>

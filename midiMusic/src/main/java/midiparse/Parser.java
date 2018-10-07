@@ -86,12 +86,11 @@ public class Parser {
     public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName, int num)
             throws InvalidMidiDataException, IOException {
         Sequence sequence = MidiSystem.getSequence(new File(fileName));
-        
+
         return parseSequence(sequence, num);
     }
-    
-    public static List<HashMap<Integer, ArrayList<Note>>> parseSequence(Sequence sequence, int num)
-    { 
+
+    public static List<HashMap<Integer, ArrayList<Note>>> parseSequence(Sequence sequence, int num) {
         ArrayList<HashMap<Integer, ArrayList<Note>>> noteChannelTracks = new ArrayList<HashMap<Integer, ArrayList<Note>>>();
 
         if (num < 0 || num > sequence.getTracks().length)
@@ -205,9 +204,8 @@ public class Parser {
         }
         return accum;
     }
-    
-    public static ArrayList<Note> getOneFromSeq(Sequence seq)
-    {
+
+    public static ArrayList<Note> getOneFromSeq(Sequence seq) {
         return getTopChannels(parseSequence(seq, -1), 1).get(0);
     }
 
