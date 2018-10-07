@@ -92,4 +92,34 @@ public class PlayController {
             playPause.setText("Play");
         }
     }
+
+    @FXML
+    public void back() throws IOException {
+        if (playing)
+            togglePlaying();
+
+        System.err.println("back to song select");
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/select.fxml"));
+        Parent select = loader.load();
+        System.err.println("loaded song select screen");
+
+        Scene newScene = new Scene(select);
+        Stage stage = (Stage) playPause.getScene().getWindow();
+        stage.setScene(newScene);
+    }
+
+    @FXML
+    public void endGame() throws IOException {
+        if (playing)
+            togglePlaying();
+
+        System.err.println("ending game");
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/end.fxml"));
+        Parent select = loader.load();
+        System.err.println("loaded end screen");
+
+        Scene newScene = new Scene(select);
+        Stage stage = (Stage) playPause.getScene().getWindow();
+        stage.setScene(newScene);
+    }
 }
