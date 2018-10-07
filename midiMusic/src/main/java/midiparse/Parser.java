@@ -50,45 +50,48 @@ public class Parser {
         return null;
     }
 
-    public static ArrayList<Note>[] getTopChannels(List<HashMap<Integer, ArrayList<Note>>> trackList, int n) {
+    public static List<ArrayList<Note>> getTopChannels(List<HashMap<Integer, ArrayList<Note>>> trackList, int n) {
         // assume that track count < 1000
         SortedMap<Long, Integer> topChannels = new TreeMap<>(Comparator.reverseOrder());
 
         for (int i = 0; i < trackList.size(); i++) {
             for (Map.Entry<Integer, ArrayList<Note>> channel : trackList.get(i).entrySet()) {
-                topChannels.put(getMaxScore(channel.getValue()), 1000 * i + channel.getKey());
+                long score = getMaxScore(channel.getValue());
+                System.err.println("Track " + i + " channel " + channel.getKey() + " has a max score of " + score);
+                topChannels.put(score, 1000 * i + channel.getKey());
             }
         }
 
         int selected = 0;
-        ArrayList<Note>[] channelList = new ArrayList[Math.min(n, topChannels.size())];
+        int num = Math.min(n, topChannels.size());
+        System.err.println("keeping top " + num + " channels from midi");
+
+        List<ArrayList<Note>> channelList = new ArrayList<ArrayList<Note>>(num);
         for (Map.Entry<Long, Integer> channel : topChannels.entrySet()) {
-            if (selected++ > n)
+            if (selected++ >= num)
                 break;
 
             int index = channel.getValue();
-            channelList[selected - 1] = trackList.get(index / 1000).get(index % 1000);
+            channelList.add(trackList.get(index / 1000).get(index % 1000));
         }
 
         return channelList;
     }
 
-    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName) {
+    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName)
+            throws InvalidMidiDataException, IOException {
         return parse(fileName, -1);
     }
 
-    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName, int num) {
-        Sequence sequence;
-        try {
-            sequence = MidiSystem.getSequence(new File(fileName));
-        } catch (InvalidMidiDataException | IOException e) {
-            System.out.println("Error received: " + e.getMessage());
-            return null;
-        }
-
+    public static List<HashMap<Integer, ArrayList<Note>>> parse(String fileName, int num)
+            throws InvalidMidiDataException, IOException {
+        Sequence sequence = MidiSystem.getSequence(new File(fileName));
         ArrayList<HashMap<Integer, ArrayList<Note>>> noteChannelTracks = new ArrayList<HashMap<Integer, ArrayList<Note>>>();
+
         if (num < 0 || num > sequence.getTracks().length)
             num = sequence.getTracks().length;
+        System.err.println("keeping first " + num + " tracks from midi");
+
         for (int q = 0; q < num; q++) {
             Track track = sequence.getTracks()[q];
             HashMap<Integer, ArrayList<Note>> noteChannels = new HashMap<Integer, ArrayList<Note>>();

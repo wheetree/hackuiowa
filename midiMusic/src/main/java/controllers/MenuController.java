@@ -16,10 +16,6 @@ public class MenuController {
     @FXML
     private JFXButton menuQuit;
 
-    public MenuController() {
-
-    }
-
     @FXML
     public void start1p() throws IOException {
         start(1);
@@ -31,14 +27,13 @@ public class MenuController {
     }
 
     private void start(int n) throws IOException {
+        System.err.println("started new " + n + " player game");
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/select.fxml"));
-        System.out.println("initialized");
         Parent select = loader.load();
-
-        System.out.println("loaded");
+        System.err.println("loaded song select screen");
 
         SelectController controller = loader.getController();
-        controller.setTracks(n);
+        controller.setChannelCount(n);
 
         Scene newScene = new Scene(select);
         Stage stage = (Stage) menuQuit.getScene().getWindow();
