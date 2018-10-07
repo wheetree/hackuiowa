@@ -144,6 +144,8 @@ public class PlayController {
         Parent select = loader.load();
         System.err.println("loaded end screen");
 
+
+
         Scene newScene = new Scene(select);
         Stage stage = (Stage) playPause.getScene().getWindow();
         stage.setScene(newScene);
