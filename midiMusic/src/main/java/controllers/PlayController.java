@@ -3,6 +3,7 @@ package hackuiowa.controllers;
 import hackuiowa.controllers.EndController;
 import hackuiowa.midiparse.Note;
 import hackuiowa.midiconnect.MidiConn;
+import hackuiowa.midiparse.Parser;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -144,6 +145,7 @@ public class PlayController {
         Parent select = loader.load();
         System.err.println("loaded end screen");
 
+        ArrayList<Note> userNotes = Parser.getOneFromSeq(capturedSeq);
 
 
         Scene newScene = new Scene(select);

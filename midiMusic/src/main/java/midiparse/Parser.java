@@ -87,8 +87,7 @@ public class Parser {
             throws InvalidMidiDataException, IOException {
         Sequence sequence = MidiSystem.getSequence(new File(fileName));
         
-        parseSequence(sequence, num);
-        
+        return parseSequence(sequence, num);
     }
     
     public static List<HashMap<Integer, ArrayList<Note>>> parseSequence(Sequence sequence, int num)
