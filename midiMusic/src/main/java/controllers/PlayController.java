@@ -39,7 +39,7 @@ public class PlayController {
 
     private final double NOTE_WIDTH_MULT = 0.2;
     private final int NOTE_HEIGHT_MULT = 10;
-    private final int Y_HEIGHT = 400;
+    private final int Y_HEIGHT = 200;
 
     @FXML
     private Group score;
@@ -50,12 +50,16 @@ public class PlayController {
     @FXML
     private JFXButton playPause;
 
+    private Color[] colors = { Color.BLUE, Color.GREEN, Color.ORANGE };
+
     public void setNotes(List<ArrayList<Note>> notesList) {
         int yOffset = 0;
-        for (ArrayList<Note> channel : notesList) {
-            System.err.println("placing channel");
+        for (int i = 0; i < notesList.size(); i++) {
+            ArrayList<Note> channel = notesList.get(i);
+            System.err.println("placing channel " + i);
+
             for (Note note : channel) {
-                Rectangle rect = new Rectangle(note.getDuration() * NOTE_WIDTH_MULT, 10, Color.BLUE);
+                Rectangle rect = new Rectangle(note.getDuration() * NOTE_WIDTH_MULT, 10, colors[i % 3]);
                 rect.setLayoutX(note.getStart() * NOTE_WIDTH_MULT);
                 rect.setLayoutY(yOffset + yOffset - note.getkey() * NOTE_HEIGHT_MULT);
                 score.getChildren().add(rect);
