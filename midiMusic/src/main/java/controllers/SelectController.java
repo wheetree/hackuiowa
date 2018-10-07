@@ -73,7 +73,7 @@ public class SelectController implements Initializable {
         PlayController controller = loader.getController();
 
         try {
-            controller.setNotes(Parser.getTopChannels(Parser.parse(fullName), 10));
+            controller.setNotes(Parser.getTopChannels(Parser.parse(fullName), channels));
             controller.setSequencer(Parser.getSequencer(fullName));
 
             Scene newScene = new Scene(play);
