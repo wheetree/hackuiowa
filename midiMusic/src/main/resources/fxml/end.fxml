@@ -13,7 +13,6 @@
 <?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackuiowa.controllers.EndController">
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
@@ -25,7 +24,10 @@
          <children>
             <AnchorPane prefHeight="131.0" prefWidth="800.0">
                <children>
-                  <JFXTextArea prefHeight="131.0" prefWidth="800.0" text="Score:" />
+                  <JFXTextArea fx:id="scoreText" prefHeight="100.0" prefWidth="800.0">
+                     <font>
+                        <Font size="45.0" />
+                     </font></JFXTextArea>
                </children>
             </AnchorPane>
             <JFXButton onAction="#restartTrack" text="Replay">

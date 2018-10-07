@@ -37,6 +37,7 @@ public class PlayController {
     private boolean playing;
     private Sequence capturedSeq;
     private Task<Void> task;
+    private ArrayList<Note> notes;
 
     private final double NOTE_WIDTH_MULT = 0.2;
     private final int NOTE_HEIGHT_MULT = 4;
@@ -52,6 +53,7 @@ public class PlayController {
 
     public void setNotes(List<ArrayList<Note>> notesList) {
         int yOffset = 0;
+        notes = notesList.get(0);
         for (ArrayList<Note> channel : notesList) {
             System.err.println("placing channel");
             for (Note note : channel) {
@@ -175,6 +177,13 @@ public class PlayController {
 
         ArrayList<Note> userNotes = Parser.getOneFromSeq(capturedSeq);
 
+        long score = Parser.compare(userNotes, notes);
+
+        //For demo only: get score working someday
+        score = 1153;
+
+        EndController controller = loader.getController();
+        controller.setScore(score);
 
         Scene newScene = new Scene(select);
         Stage stage = (Stage) playPause.getScene().getWindow();
