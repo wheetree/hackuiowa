@@ -4,7 +4,7 @@ A MIDI music play along
 # Compiling
 ```
 cd hackuiowa/midiMusic
-mvn build
+mvn compile
 ```
 
 # Running
