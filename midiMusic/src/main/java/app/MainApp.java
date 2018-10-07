@@ -17,7 +17,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent menu = FXMLLoader.load(getClass().getClassLoader().getResource("menu.fxml"));
+        Parent menu = FXMLLoader.load(getClass().getClassLoader().getResource("fxml/menu.fxml"));
         current = new Scene(menu);
 
         this.primaryStage = primaryStage;

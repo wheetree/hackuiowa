@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="600.0" fitWidth="800.0" pickOnBounds="true">
          <image>
-            <Image url="@audio-black-and-white-black-and-white-6966.jpg" />
+            <Image url="@../audio-black-and-white-black-and-white-6966.jpg" />
          </image>
       </ImageView>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">

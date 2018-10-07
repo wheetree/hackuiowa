@@ -27,7 +27,7 @@ public class SelectController {
 
     @FXML
     public void startTrack() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("play.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/play.fxml"));
         Parent play = loader.load();
         PlayController controller = loader.getController();
         controller.setNotes(Parser.getTopChannels(Parser.parse(trackName), tracks));

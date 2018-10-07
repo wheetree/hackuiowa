@@ -31,7 +31,7 @@ public class MenuController {
     }
 
     private void start(int n) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("select.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/select.fxml"));
         System.out.println("initialized");
         Parent select = loader.load();
 
